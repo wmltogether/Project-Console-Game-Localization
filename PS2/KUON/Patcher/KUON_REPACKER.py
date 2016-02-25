@@ -1,18 +1,20 @@
 import struct,os,codecs
 import shutil
 def get_file_info():
-    fp = open('kuon.ini' , 'rb')
+    fp = codecs.open('kuon.ini' , 'rb' , "utf-16")
     lines = fp.readlines()
     l = {}
-    for line in lines:
+    for i in xrange(len(lines)):
+        line = lines[i]
         if '\t' in line:
             (file_id , offset, size ,name) = line.split('\t')[:4]
-            file_id = int(file_id , 10)
+            file_id = i
             offset = int(offset, 16)
             size = int(size , 16)
             name = name.replace("\r\n" , "")
             l[name] = (file_id , offset, size)
     return l
+
 def repack():
     if os.path.exists("import\\all.bnd"):
         os.remove("import\\all.bnd")
