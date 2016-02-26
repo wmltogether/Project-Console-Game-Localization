@@ -105,7 +105,7 @@ class Base:
         return self.base_stream.write(struct.pack('>Q' , value))
 
 
-def build_cwdh(fntbin_name):
+def build_cwdh(fntbin_name , max_char_with):
     fp = open(fntbin_name , "rb")
     fs = Base(fp)
     fp.seek(4)
@@ -136,8 +136,8 @@ def build_cwdh(fntbin_name):
             char = c_width
         else:
             left = 0x1
-            glyph = 0x22
-            char = 0x23
+            glyph = max_char_with - 1
+            char = max_char_with
         buffer.write(chr(left))
         buffer.write(chr(glyph))
         buffer.write(chr(char))
@@ -188,7 +188,7 @@ def build_cmap(string):
 
 
 
-def fix_bffnt(fnt_name ,fbin_name,str_name):
+def fix_bffnt(fnt_name ,fbin_name,str_name,max_char_width):
     fp = open(fnt_name , "rb+")
     base_stream = Base(fp)
     fp.seek(0x10)
@@ -210,7 +210,7 @@ def fix_bffnt(fnt_name ,fbin_name,str_name):
         fp.write(data)
     fp.seek(CWDHOffset)
     fp.truncate()
-    cwdhdata = build_cwdh(fbin_name)
+    cwdhdata = build_cwdh(fbin_name , max_char_width)
     string = codecs.open(str_name,"rb" , "utf-16").read()
     cmapdata = build_cmap(string)
     fp.write(cwdhdata)
@@ -224,7 +224,7 @@ def fix_bffnt(fnt_name ,fbin_name,str_name):
     fp.write(struct.pack(">I" , all))
     fp.close()
 
-fix_bffnt("inBFFNT\\LENS5_SYSTEM_FONT.BFFNT" , "Message.BIN","LENS5_SYSTEM_FONT.BFFNT_charlist.txt" )
+fix_bffnt("inBFFNT\\LENS5_SYSTEM_FONT.BFFNT" , "Message.BIN","LENS5_SYSTEM_FONT.BFFNT_charlist.txt" ,0x23)
 
 
 
