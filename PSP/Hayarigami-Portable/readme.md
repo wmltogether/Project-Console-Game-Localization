@@ -21,11 +21,11 @@ occultfiletool.py 文档解析工具
 
 >>for j0 in xrange(0x81,0x99):
 
->>        for j1 in xrange(0x40,0xfd):
+>>        for j1 in xrange(0x40,0x100):
 
 >>            if ((j0  * 0x100) + j1) >= 0x889F and ((j0  * 0x100) + j1) <= 0x9872:
 
->>                if (j1 != 0x7f):
+>>            
 
 >>                    s_list.append( (j0  * 0x100) + j1)
 
