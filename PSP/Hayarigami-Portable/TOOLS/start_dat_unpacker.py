@@ -12,14 +12,17 @@ class NISDAT(object):
     def __init__(self):
         self.nums = 0
 
-    def pack_start(self , folder, output_name="start.dat"):
-        fl = dir_fn((folder)
+    def pack_start(self , folder, output_name="import\\start.dat"):
+        fl = dir_fn((folder))
         self.nums = len(fl)
         dest = open(output_name , "wb")
         dest.write(struct.pack("I" , self.nums))
         dest.write("\x00" * 0x18 * self.nums)
         dest.write("\x00" * (0x10 - dest.tell()%0x10))
         dest.seek(0,2)
+        pos = dest.tell()
+        if not pos%0x10 == 0:
+            dest.write("\x00" * (0x10 - pos%0x10))
         pos = dest.tell()
         for i in xrange(self.nums):
             fn = fl[i]
@@ -35,6 +38,9 @@ class NISDAT(object):
             dest.write(data)
             dest.seek(0,2)
             pos = dest.tell()
+            if not pos%0x10 == 0:
+                dest.write("\x00" * (0x10 - pos%0x10))
+                pos = dest.tell()
             fs.close()
         dest.close()
             
@@ -58,5 +64,5 @@ class NISDAT(object):
         fp.close()
 
 nisd = NISDAT()
-nisd.unpack_start("start.dat")
+nisd.pack_start("start.dat_unpacked" , output_name="import\\start.dat")
 
