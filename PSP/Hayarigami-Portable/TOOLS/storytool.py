@@ -67,10 +67,11 @@ class StoryParse(object):
                 buffer.write(">\r\n")
             elif (ord(string[2]) ^ 0xff == 0x2f and ord(string[3]) ^ 0xff == 0xff):
                 # shang biao kai shi
-                var = struct.unpack("B" , string[4])[0]
+                var = struct.unpack("%dB"%len(string) , string)
                 buffer.write("<up:")
-                buffer.write(self.decrypt_code(string[5:5+var]).decode("cp932"))
-                buffer.write(">")
+                for v in var:
+                    buffer.write("%02x,"%v)
+                buffer.write(">\r\n")
 
             elif (ord(string[2]) ^ 0xff == 0x2e and ord(string[3]) ^ 0xff == 0xff):
                 # shang biao jie shu
@@ -84,7 +85,8 @@ class StoryParse(object):
                 # she ding ren ming
                 buffer.write("<name:")
                 buffer.write("%02x,"%ord(string[4]))
-                buffer.write(self.decrypt_code(string[5:-1]).decode("cp932"))
+                self.dest_clear.write(u"%08x,%d,%s\r\n\r\n"%(pos+5 , len(string[5:-1]),self.decrypt_code(string[5:-1]).decode("cp932")))
+                buffer.write("(text|%08x|%d)"%(pos+5,len(string[5:-1])))
                 buffer.write(">\r\n")
 
             elif (ord(string[2])  == 0x79 and ord(string[3]) == 0x05):
@@ -95,6 +97,18 @@ class StoryParse(object):
                     buffer.write("%02x,"%v)
                 #pos = 0
                 c1 = string[8:-2]
+                self.dest_clear.write(u"%08x,%d,%s\r\n\r\n"%(pos+8 , len(c1),self.decrypt_code(c1).decode("cp932")))
+                buffer.write("(text|%08x|%d)"%(pos+8 , len(c1)))
+                buffer.write(">")
+                
+            elif (ord(string[2])  == 0xe9 and ord(string[3]) == 0x03):
+                # label
+                var = struct.unpack("%dB"%len(string[:0xc]) , string[:0xc])
+                buffer.write("<label:")
+                for v in var:
+                    buffer.write("%02x,"%v)
+                #pos = 0
+                c1 = string[0xc:-1]
                 self.dest_clear.write(u"%08x,%d,%s\r\n\r\n"%(pos+8 , len(c1),self.decrypt_code(c1).decode("cp932")))
                 buffer.write("(text|%08x|%d)"%(pos+8 , len(c1)))
                 buffer.write(">")
