@@ -84,7 +84,7 @@ class StoryParse(object):
 
     def ParseCode(self , string , ch_dict , jp_dict):
         if "null" in string:
-            return "\x00"
+            return ""
         v = string.split(":")[1].split(">")[0]
         l0 = v.split(",")
         buffer = StringIO()
@@ -214,6 +214,9 @@ class StoryParse(object):
                 for item in matcher:
                     data = self.ParseCode( item , chdict , jpdict)
                     block.write(data)
+                    # special align to 4bytes
+                    if (len(data)%4 != 0):block.write("\x00" * (8 - len(data)%4))
+                    
         data = block.getvalue()
         return data
 
