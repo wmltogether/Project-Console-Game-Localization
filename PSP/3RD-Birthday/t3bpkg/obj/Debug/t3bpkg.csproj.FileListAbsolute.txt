@@ -1,0 +1,6 @@
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\bin\Debug\t3bpkg.exe.config
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\obj\Debug\t3bpkg.csprojResolveAssemblyReference.cache
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\bin\Debug\t3bpkg.exe
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\bin\Debug\t3bpkg.pdb
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\obj\Debug\t3bpkg.exe
+K:\ps3psp汉化\The_3rd_Birthday\t3bpkg\t3bpkg\obj\Debug\t3bpkg.pdb
