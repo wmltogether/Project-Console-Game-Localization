@@ -2,6 +2,7 @@
 import codecs
 import os
 import struct
+import sys
 from cStringIO import StringIO
 
 
