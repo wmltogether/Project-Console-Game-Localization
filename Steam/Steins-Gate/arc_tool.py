@@ -24,6 +24,7 @@ class ARC(object):
             tmp_ofs = fp.tell()
             null = struct.unpack("I", fp.read(4))[0]
             id = struct.unpack("I", fp.read(4))[0]
+            tmp_ofs = fp.tell()
             offset = struct.unpack("Q", fp.read(8))[0]
             size = struct.unpack("Q", fp.read(8))[0]
             size = struct.unpack("Q", fp.read(8))[0]
@@ -39,7 +40,8 @@ class ARC(object):
                     fp.seek(offset)
                     fp.write(data)
                     fp.write("\x00" * (size - fsize))
-                    fp.seek(tmp_ofs)
+                    fp.seek(tmp_ofs + 8)
+                    fp.write(struct.pack("Q", size))
                     fp.write(struct.pack("Q", size))
                     print("inject:%08x,%d" % (offset, size))
                     pass
@@ -49,16 +51,17 @@ class ARC(object):
                     fp.seek(0, 2)
 
                     o = fp.tell()
-                    if (o % 0x100 != 0):
-                        fp.write("\x00" * (0x100 - o % 0x100))
+                    if (o % 0x800 != 0):
+                        fp.write("\x00" * (0x800 - o % 0x800))
                     o2 = fp.tell()
                     fp.write(data)
                     o = fp.tell()
-                    if (o % 0x100 != 0):
-                        fp.write("\x00" * (0x100 - o % 0x100))
+                    if (o % 0x800 != 0):
+                        fp.write("\x00" * (0x800 - o % 0x800))
                     fp.seek(tmp_ofs)
-                    fp.write(struct.pack("Q", size))
                     fp.write(struct.pack("Q", o2))
+                    fp.write(struct.pack("Q", size))
+                    fp.write(struct.pack("Q", size))
                     print("extend:%08x,%d" % (o2, size))
 
                     pass
