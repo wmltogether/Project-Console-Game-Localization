@@ -131,13 +131,16 @@ def import_chaos(r_filename):
     fileBuffer.truncate()
     str_pos = fileBuffer.tell()
     tmp = str_pos
+    n = 0
     for (ptr_pos, string_code) in code_list:
         fileBuffer.seek(str_pos)
         fileBuffer.write(string_code)
 
         fileBuffer.write('\xFF')
         str_pos = fileBuffer.tell()
+        ptr_pos = index_start_pos + 4 * n
         fileBuffer.seek(ptr_pos)
+        n += 1
         fileBuffer.write(struct.pack("I", tmp))
         tmp = str_pos
     fileBuffer.seek(0 ,2)
