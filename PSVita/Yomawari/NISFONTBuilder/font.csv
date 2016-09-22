@@ -1,0 +1,4 @@
+//fontName,ttfName,charmapName,fontWidth,fontHeight,fontSize
+font,fontsong.otf,charlist.txt,28,28,25,0xec3a00,0x0000000f,0x32fd50,0xec385d
+font2,fzsr_gbk.ttf,charlist.txt,28,28,25,0x01373a00,0x0000000f,0x38fa68,0x0137385d
+tegaki,fzsr_gbk.ttf,charlist.txt,28,28,25,0x01373a00,0x0000000f,0x38fa68,0x0137385d
