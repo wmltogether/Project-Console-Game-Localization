@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "g1ttool", "g1ttool\g1ttool.csproj", "{AD287C48-81F4-49E7-ABB6-54EFF5E7599E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1979E603-6CC8-4118-B0AE-187FEB090C02} = {1979E603-6CC8-4118-B0AE-187FEB090C02}
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677} = {CCF5A50F-A663-418E-A3E9-1B80E5A67677}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "psp_gxm", "psp_gxm\psp_gxm.csproj", "{1979E603-6CC8-4118-B0AE-187FEB090C02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677} = {CCF5A50F-A663-418E-A3E9-1B80E5A67677}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{CCF5A50F-A663-418E-A3E9-1B80E5A67677}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD287C48-81F4-49E7-ABB6-54EFF5E7599E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD287C48-81F4-49E7-ABB6-54EFF5E7599E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD287C48-81F4-49E7-ABB6-54EFF5E7599E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD287C48-81F4-49E7-ABB6-54EFF5E7599E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1979E603-6CC8-4118-B0AE-187FEB090C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1979E603-6CC8-4118-B0AE-187FEB090C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1979E603-6CC8-4118-B0AE-187FEB090C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1979E603-6CC8-4118-B0AE-187FEB090C02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF5A50F-A663-418E-A3E9-1B80E5A67677}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
