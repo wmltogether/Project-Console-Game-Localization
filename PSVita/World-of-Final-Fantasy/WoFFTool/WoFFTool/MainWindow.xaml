@@ -1,0 +1,19 @@
+﻿<Window x:Class="WoFFTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WoFFTool"
+        mc:Ignorable="d"
+        Title="World of Final Fantasy Tool" Height="350" Width="525">
+    <Grid Background="#FFF0F0F0">
+        <Menu x:Name="menu" Height="22" VerticalAlignment="Top" Background="#FFEBEBEB">
+            <MenuItem Header="Open">
+                <MenuItem Header="Open GxArchive" HorizontalAlignment="Left" Width="200" Margin="0,0,-2,0" Click="OpenGxArchive_Click"/>
+            </MenuItem>
+        </Menu>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="239" Margin="28,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="450" IsReadOnly="True" IsUndoEnabled="False" VerticalScrollBarVisibility="Auto" TextChanged="textBox1_TextChanged"/>
+        <ProgressBar x:Name="progressbar1" HorizontalAlignment="Left" Height="20" Margin="28,289,0,0" VerticalAlignment="Top" Width="450"/>
+
+    </Grid>
+</Window>

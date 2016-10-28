@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoFFTool", "WoFFTool\WoFFTool.csproj", "{0604EE28-D44F-4C62-B760-80946440986B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoFFCore", "WoFFCore\WoFFCore.csproj", "{7C6D62D6-92A2-47DF-9E0D-D1B044A6F8AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5011B17C-59B0-4116-A469-3876D20870F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0604EE28-D44F-4C62-B760-80946440986B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0604EE28-D44F-4C62-B760-80946440986B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0604EE28-D44F-4C62-B760-80946440986B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0604EE28-D44F-4C62-B760-80946440986B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C6D62D6-92A2-47DF-9E0D-D1B044A6F8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C6D62D6-92A2-47DF-9E0D-D1B044A6F8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C6D62D6-92A2-47DF-9E0D-D1B044A6F8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C6D62D6-92A2-47DF-9E0D-D1B044A6F8AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5011B17C-59B0-4116-A469-3876D20870F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5011B17C-59B0-4116-A469-3876D20870F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5011B17C-59B0-4116-A469-3876D20870F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5011B17C-59B0-4116-A469-3876D20870F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
