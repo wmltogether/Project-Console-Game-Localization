@@ -8,10 +8,13 @@ def dir_fn(adr):
             adrlist=os.path.join(root, name)
             dirlst.append(adrlist)
     return dirlst
-def readUString(buffer):
+
+def readUString(buffer,blen):
     data = ""
     string = u""
     while True:
+        if (buffer.tell() + 1 >= blen):
+            break
         fbyte= buffer.read(1)
         sbyte = buffer.read(1)
         if (ord(fbyte),ord(sbyte)) == (0,0):
@@ -20,11 +23,25 @@ def readUString(buffer):
         tmp, = struct.unpack(">H" , data)
         if tmp == 0xe:
             b,c,d = struct.unpack(">3H" , buffer.read(6))
+            tmp = ""
             if d == 0:
-                string += ("{0E:%x:%x:%x}"%(b,c,d)).upper()
+                tmp += ("{0E:%x:%x:%x}"%(b,c,d)).upper()
             else:
                 var = struct.unpack(">%dH"%(d/2) , buffer.read(d))
-                string += ("{0E:%x:%x:%x"%(b,c,d)).upper()
+                tmp += ("{0E:%x:%x:%x"%(b,c,d)).upper()
+                for item in var:
+                    tmp += (":%x"%item).upper()
+                tmp += ("}")
+            if (b,c)==(0,0):
+                tmp = ""
+                string += tmp
+        elif tmp == 0xf:
+            b,c,d = struct.unpack(">3H" , buffer.read(6))
+            if d == 0:
+                string += ("{0F:%x:%x:%x}"%(b,c,d)).upper()
+            else:
+                var = struct.unpack(">%dH"%(8/2) , buffer.read(8))
+                string += ("{0F:%x:%x:%x"%(b,c,d)).upper()
                 for item in var:
                     string += (":%x"%item).upper()
                 string += ("}")
