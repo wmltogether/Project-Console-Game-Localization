@@ -1,0 +1,200 @@
+public class FontReader
+    {
+        public List<byte[]> gxt_chunks = new List<byte[]>();
+        public FontReader(string fname)
+        {
+            BinaryReader br = new BinaryReader(File.Open(fname, FileMode.Open));
+            br.BaseStream.Seek(0x28, SeekOrigin.Begin);
+            int nums = 28;
+            for (int i= 0; i < nums; i++)
+            {
+                int c = 0x640;
+                if (i < 27)
+                {
+
+                    c = 0x640;
+                }
+                else
+                {
+                    c = 0x320;
+                }
+                byte[] chunk = br.ReadBytes(c);
+                Console.WriteLine("{0} -- {1:x8}", i, br.BaseStream.Position);
+                byte[] gxt_chunk = br.ReadBytes(0x40040);
+                
+                gxt_chunks.Add(gxt_chunk);
+            }
+        }
+
+        public Bitmap[] TestRead()
+        {
+            Bitmap[] result = new Bitmap[28];
+            for (int i = 0; i < 28; i++)
+            {
+                Console.WriteLine(i);
+                MemoryStream ms = new MemoryStream(gxt_chunks[i]);
+                var instance = new EndianBinaryReader(ms);
+                GXT gxt = new GXT();
+                gxt.Open(instance);
+                Bitmap bmp = gxt.GetBitmap(0, 0);
+                result[i] = bmp;
+            }
+            return result;
+        }
+    }
+class Program
+    {
+        [DllImport("user32.dll", EntryPoint = "MessageBox")]
+        public static extern int MsgBox(IntPtr hwnd, string text, string caption, uint type);
+        public static void ShowMsgBox(string msg)
+        {
+            MsgBox(IntPtr.Zero, msg, "FontTool", 1);
+        }
+        private static void ShowArgsMsg()
+        {
+            string msg =
+            "error: no args\n" +
+            "====================\n" +
+            " Usage:\n" +
+            "dump font texture： FontTool -d <STATIONED.FPV>\n "+
+            "create font ： FontTool -c <STATIONED_CHS.FPV>\n";
+            Console.WriteLine(msg);
+        }
+
+        [STAThread]
+        static void Main(string[] args)
+        {
+            string filename;
+            if (args.Length == 0)
+            {
+                ShowArgsMsg();
+
+
+                Program.ShowMsgBox("Error: no args \n  Please use this program in console!");
+
+                return;
+            }
+            if (args.Length > 0)
+            {
+                for (int i = 1; i < args.Length; i++)
+                {
+                    if (args[i].StartsWith("-"))
+                    {
+                        switch (args[i].TrimStart('-'))
+                        {
+                            case "d":
+                            case "dump":
+                                /*
+                                 * 解析：
+                                 * 24h 2af6是总字符数
+                                 * 字库有28张纹理，前27张是0x640(400个字符) + 0x40040的ARGB SWIZZLE 256X256 gxt，最后一张是200个字符
+                                 * 每张纹理按照 B G R A 四个通道分离，可以分离出4张8bpp的灰度图，其中B通道是图1，A通道是图4
+                                 * 
+                                 * 生成方式：
+                                 * 
+                                 * 使用freetype生成256x256，25像素网格（每行10个字） 灰度纹理后提取 像素颜色，分别写入B G R A四个分量，合并成一张DDS，最后使用psp2gxt.exe
+                                 * 生成argb swizzle的GXT纹理，最后将字符表和纹理全部合并到STATIONED.FPV
+                                 */
+                                if (!Directory.Exists(@"./dump")) Directory.CreateDirectory(@"./dump");
+                                filename = args[++i];
+                                Console.WriteLine(string.Format("Reading {0}", filename));
+                                FontReader reader = new FontReader(filename);
+                                Bitmap[] bm = reader.TestRead();
+                                int count = 0;
+                                foreach (var m in bm)
+                                {
+                                    byte[][] data = GenBitmap(m);
+                                    foreach (var d0 in data)
+                                    {
+                                        
+                                        Bitmap bmp =  CreateGrayTexture( d0);
+                                        bmp.Save(string.Format("./dump/{0}.png", count),ImageFormat.Png);
+                                        count += 1;
+
+                                    }
+
+                                    
+                                }
+                                Console.WriteLine("Texture dumped");
+                                break;
+
+                            case "c":
+                            case "create":
+                                filename = args[++i];
+                                Console.WriteLine(string.Format("Compressing {0}", filename));
+                                break;
+
+                            default:
+                                Console.WriteLine("Unknown argument '{0}'.", args[i]);
+                                return;
+                        }
+                        continue;
+                    }
+                }
+            }
+            Console.ReadLine();
+        }
+
+        public static Bitmap CreateGrayTexture(byte[] input)
+        {
+            Bitmap image = new Bitmap(256, 256, PixelFormat.Format32bppArgb);
+            BitmapData bmpData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadWrite, image.PixelFormat);
+            byte[] pixelsForBmp = new byte[bmpData.Height * bmpData.Stride];
+            int bitsPerPixel = Bitmap.GetPixelFormatSize(image.PixelFormat);
+            byte[] pixelData = Gen8to32(input);
+
+            Marshal.Copy(pixelData, 0, bmpData.Scan0, pixelsForBmp.Length);
+            image.UnlockBits(bmpData);
+            return image.Clone(new Rectangle(0, 0, 256, 256), image.PixelFormat);
+        }
+
+
+
+
+        /// <summary>
+        /// 分离ARGB分量到新交错数组中
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <returns></returns>
+        public static byte[][] GenBitmap(Bitmap bmp)
+        {
+            byte[][] tbytes = new byte[4][];
+            byte[] bytesB = new byte[bmp.Width * bmp.Height];
+            byte[] bytesG = new byte[bmp.Width * bmp.Height];
+            byte[] bytesR = new byte[bmp.Width * bmp.Height];
+            byte[] bytesA = new byte[bmp.Width * bmp.Height];
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    bytesB[x + y * bmp.Width] = color.B;
+                    bytesG[x + y * bmp.Width] = color.G;
+                    bytesR[x + y * bmp.Width] = color.R;
+                    bytesA[x + y * bmp.Width] = color.A;
+                }
+            }
+            tbytes[0] = bytesB;
+            tbytes[1] = bytesG;
+            tbytes[2] = bytesR;
+            tbytes[3] = bytesA;
+
+            return tbytes;
+        }
+
+        public static byte[] Gen8to32(byte[] input)
+        {
+            byte[] result = new byte[input.Length * 4];
+            for (int i = 0; i < input.Length*4; i+=4)
+            {
+                
+                result[i] = input[i / 4];
+                result[i + 1] = input[i / 4];
+                result[i + 2] = input[i / 4];
+                result[i + 3] = (byte)0xff;
+            }
+
+            return result;
+        }
+
+    }
