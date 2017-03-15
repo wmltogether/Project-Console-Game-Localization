@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using Scarlet.Platform.Sony;
+using Scarlet.Drawing;
+using Scarlet.IO.ImageFormats;
+using Scarlet.IO;
+using System.Drawing;
+
+namespace TXVTool.ImageFormat
+{
+    public class TextureContent
+    {
+        public SceGxmTextureType type; //swizzle or not
+        public SceGxmTextureFormat format; // texture format
+        public Bitmap texture;
+        
+    }
+    public class TXV
+    {
+        int spritesheet_nums = 0;
+        int gxt_nums = 0;
+        public List<byte[]> gxt_chunks = new List<byte[]>();
+        public TextureContent[] textureContents;
+
+        public TXV(string fname)
+        {
+            BinaryReader br = new BinaryReader(File.Open(fname, FileMode.Open));
+            br.BaseStream.Seek(0x20, SeekOrigin.Begin);
+            this.spritesheet_nums = br.ReadInt32();
+            br.BaseStream.Seek(this.spritesheet_nums * 0x10, SeekOrigin.Current);
+            br.BaseStream.Seek(4, SeekOrigin.Current);
+            this.gxt_nums = br.ReadInt32();
+            for (int i = 0; i < gxt_nums; i++)
+            {
+                int gxt_size = br.ReadInt32();
+                byte[] gxt_data = br.ReadBytes(gxt_size);
+                gxt_chunks.Add(gxt_data);
+            }
+            this.textureContents = this.TestRead();
+
+        }
+
+        private TextureContent[] TestRead()
+        {
+            TextureContent[] result = new TextureContent[gxt_chunks.Count];
+            for (int i = 0; i < gxt_chunks.Count; i++)
+            {
+                MemoryStream ms = new MemoryStream(gxt_chunks[i]);
+                var instance = new EndianBinaryReader(ms);
+                TextureContent t = new TextureContent();
+                GXT gxt = new GXT();
+                gxt.Open(instance);
+                Bitmap bmp = gxt.GetBitmap(0, 0);
+                t.texture = bmp;
+                t.format = gxt.TextureInfos[0].GetTextureFormat();
+                t.type = gxt.TextureInfos[0].GetTextureType();
+                result[i] = t;
+            }
+            return result;
+        }
+    }
+
+}
