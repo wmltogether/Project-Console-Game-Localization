@@ -1,0 +1,14 @@
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\obj\Debug\PFramework.csprojResolveAssemblyReference.cache
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\obj\Debug\PFramework.csproj.CoreCompileInputs.cache
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\PFramework.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\PFramework.pdb
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\Newtonsoft.Json.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\NPOI.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\NPOI.OOXML.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\NPOI.OpenXml4Net.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\NPOI.OpenXmlFormats.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\Newtonsoft.Json.xml
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\bin\Debug\NPOI.xml
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\obj\Debug\PFramework.dll
+F:\SMT3_Translate\TOOL\ExcelConverter\Agemo2Excel\PFramework\obj\Debug\PFramework.pdb

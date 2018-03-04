@@ -1,0 +1,2 @@
+python storyimport.py
+pause

@@ -1,0 +1,2 @@
+python storytool.py
+pause
