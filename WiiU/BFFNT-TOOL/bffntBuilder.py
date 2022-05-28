@@ -138,6 +138,12 @@ def build_cwdh(fntbin_name , max_char_with):
             left = 0x1
             glyph = max_char_with - 1
             char = max_char_with
+        if glyph < 0:
+             glyph = 0
+        if left < 0:
+             left = 0
+        if char < 0:
+             char = 0
         buffer.write(chr(left))
         buffer.write(chr(glyph))
         buffer.write(chr(char))
